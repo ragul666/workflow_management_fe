@@ -19,7 +19,10 @@ export function useWebSocket(
   const connect = useCallback(() => {
     if (!tenantId) return;
 
-    const ws = new WebSocket(`${WS_URL}/${tenantId}`);
+    const token = localStorage.getItem("access_token");
+    if (!token) return;
+
+    const ws = new WebSocket(`${WS_URL}/${tenantId}?token=${token}`);
     wsRef.current = ws;
 
     ws.onopen = () => {
